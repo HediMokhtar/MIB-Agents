@@ -1,0 +1,6 @@
+#GitIgnore for Scala files
+
+#UntrackedFiles
+
+*.yml
+*.xml
