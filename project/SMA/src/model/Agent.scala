@@ -3,8 +3,10 @@ package model
 import com.sun.prism.paint.Color
 
 /**
-  * Created by franc on 04-Jan-17.
+  * Trait is an abstract class like in Java
+  * We imagine that there will many kind of Agents on that project
   */
+
 trait Agent{
 
   def decide(): Unit
