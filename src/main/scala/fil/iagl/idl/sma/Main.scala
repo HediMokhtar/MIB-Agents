@@ -1,4 +1,4 @@
-package model
+package fil.iagl.idl.sma
 
 object Main {
   def main(args: Array[String]) {
