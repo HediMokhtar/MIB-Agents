@@ -13,3 +13,4 @@ libraryDependencies ++= Seq(
   "org.backuity.clist" %% "clist-core"   % clistVersion,
   "org.backuity.clist" %% "clist-macros" % clistVersion % "provided"
 )
+
