@@ -7,14 +7,18 @@ package fil.iagl.idl.sma.core.model
 trait Environment{
 
 
-  val length: Int
+  val height: Int
   val width: Int
-  val agentsEnvironment = Array.ofDim[Agent](length,width)
+  val agentsEnvironment: Array[Array[Agent]] = Array.ofDim[Agent](height,width)
 
   def getContent(x : Int,y: Int): Agent
 
   def setContent(x : Int,y : Int, agent: Agent ): Unit
 
   def deleteContent(x : Int, y: Int): Unit
+
+  def isAvailable(x:Int, y:Int): Boolean
+
+  def init(): Unit
 
 }
