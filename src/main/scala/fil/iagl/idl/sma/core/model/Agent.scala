@@ -9,8 +9,7 @@ import com.sun.prism.paint.Color
 
 trait Agent{
 
-  def decide(): Unit
-
-  def update(): Unit
+  var x : Int
+  var y : Int
 
 }

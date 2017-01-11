@@ -1,6 +1,6 @@
 package fil.iagl.idl.sma.particles.model
 
-import java.awt.Color
+import javafx.scene.paint.Color
 import fil.iagl.idl.sma.core.model.Agent
 import scala.util.Random
 
@@ -14,13 +14,10 @@ case class Particle (var x: Int,
   val color: Color = assignRandomColor()
   var direction: (Int, Int) = assignRandomDirection()
 
-  override def update(): Unit = ???
-
-  override def decide(): Unit = ???
-
   def assignRandomColor(): Color ={
     val randomPrimaryColor = new Random()
-    new Color(randomPrimaryColor.nextFloat(),randomPrimaryColor.nextFloat(),randomPrimaryColor.nextFloat())
+    val opacity = 1
+    new Color(randomPrimaryColor.nextDouble(),randomPrimaryColor nextDouble(), randomPrimaryColor.nextDouble(),opacity)
   }
 
   def assignRandomDirection(): (Int,Int) ={
@@ -41,6 +38,32 @@ case class Particle (var x: Int,
   def reroll(maxWidth: Int, maxHeight: Int): Unit={
     x = Random.nextInt(maxHeight)
     y = Random.nextInt(maxWidth)
+  }
+
+  def getNextCoordinates(environment: ParticleEnvironment ): (Int,Int) = {
+    var xDirection = direction._1
+    var yDirection = direction._2
+
+    if (environment.toric) {
+      val newX = if ((x + xDirection) >= 0) x + xDirection else (x + xDirection) + environment.width
+      val newY = if ((y + yDirection) >= 0) y + yDirection else (y + yDirection) + environment.height
+      (newX % environment.width, newY % environment.height)
+    }
+    else {
+      var newX = x + xDirection
+      var newY = y + yDirection
+
+      if ((newX < 0) || (newX >= environment.width)) {
+        xDirection = -xDirection
+        newX = x + xDirection
+      }
+
+      if ((newY < 0) || (newY >= environment.height)) {
+        yDirection = -yDirection
+        newY = y + yDirection
+      }
+      (newX, newY)
+    }
   }
 
 }

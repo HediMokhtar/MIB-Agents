@@ -18,7 +18,7 @@ class ParticlesView extends Application{
     val width = primaryScreenBounds.getWidth.toInt
     val height = primaryScreenBounds.getHeight.toInt
 
-    val particleEnvironment = new ParticleEnvironment(width, height,100)
+    val particleEnvironment = new ParticleEnvironment(width, height,100,10,true)
 
 
 

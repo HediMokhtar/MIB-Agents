@@ -10,6 +10,7 @@ trait Environment{
   val height: Int
   val width: Int
   val agentsEnvironment: Array[Array[Agent]] = Array.ofDim[Agent](height,width)
+  val toric : Boolean
 
   def getContent(x : Int,y: Int): Agent
 

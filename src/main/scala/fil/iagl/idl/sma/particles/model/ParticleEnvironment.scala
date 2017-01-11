@@ -1,16 +1,22 @@
 package fil.iagl.idl.sma.particles.model
 
 
-import fil.iagl.idl.sma.core.model.{Agent, Environment}
+import javafx.scene.shape.Circle
+
+import fil.iagl.idl.sma.core.model.{Agent, AgentsShapes, Environment}
 
 import scala.util.Random
 
 class ParticleEnvironment(val height: Int,
                           val width : Int,
-                          val agentsNumber: Int) extends Environment{
+                          val agentsNumber: Int,
+                          val agentsSize: Double,
+                          val toric: Boolean) extends Environment{
 
   //Create all the agents
   val agents: List[Particle] = List.fill(agentsNumber)(Particle(Random.nextInt(height),Random.nextInt(width)))
+
+  val agentsShapes = AgentsShapes()
 
 
   override def getContent(x: Int, y: Int): Agent = {
@@ -33,9 +39,11 @@ class ParticleEnvironment(val height: Int,
   /**
     * move an agent taking the destination in parameters
     */
-  def move(particle: Particle, x: Int, y: Int): Unit = {
-    this.setContent(x, y, particle)
+  def move(particle: Particle, nextX: Int, nextY: Int): Unit = {
     this.deleteContent(particle.x,particle.y)
+    this.setContent(nextX, nextY, particle)
+    particle.x = nextX
+    particle.y = nextY
   }
 
   /**
@@ -55,11 +63,31 @@ class ParticleEnvironment(val height: Int,
   }
 
   def insertAgent(particle: Particle): Unit = {
-    if(isAvailable(particle.x,particle.y))
-      setContent(particle.x,particle.y,particle)
+    if(isAvailable(particle.x,particle.y)) {
+      setContent(particle.x, particle.y, particle)
+      val particleShape = new Circle(agentsSize, particle.color)
+      particleShape.relocate(particle.x * 5, particle.y * 5)
+      agentsShapes.linkAgentToShape(particle, particleShape)
+    }
     else{
       particle.reroll(height,width)
       insertAgent(particle)
     }
   }
+
+  def nextState(): Unit ={
+    moveAgents(agents)
+  }
+
+  def moveAgents(agentsList : List[Particle]):Unit ={
+    if(agentsList.isEmpty)
+      println("Empty list")
+    else {
+      val currentAgent = agentsList.head
+      val next = currentAgent.getNextCoordinates(this)
+      setContent(next._1,next._2,currentAgent)
+      moveAgents(agentsList.tail)
+    }
+  }
+
 }
