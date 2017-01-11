@@ -1,20 +1,21 @@
 package fil.iagl.idl.sma.core.model
 
-/**
-  * 2 dimensions Board for any multi-agent system
-  */
+import fil.iagl.idl.sma.particles.model.Agent
 
-trait Environment{
+class Environment(val width: Int, val height: Int) {
 
+  var agents = Array.ofDim[Option[Agent]](width, height)
 
-  val length: Int
-  val width: Int
-  val agentsEnvironment = Array.ofDim[Agent](length,width)
+  for (i <- 0 until width; j <- 0 until height)
+    agents(i)(j) = None
 
-  def getContent(x : Int,y: Int): Agent
+  def getAgent(x: Int, y: Int): Option[Agent] = agents(x)(y)
 
-  def setContent(x : Int,y : Int, agent: Agent ): Unit
+}
 
-  def deleteContent(x : Int, y: Int): Unit
+object Environment {
+
+  def apply(width: Int, height: Int) = new Environment(width, height)
+
 
 }
