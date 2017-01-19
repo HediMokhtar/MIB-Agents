@@ -1,69 +1,76 @@
 package fil.iagl.idl.sma.particles.model
 
-import javafx.scene.paint.Color
-import fil.iagl.idl.sma.core.model.Agent
+import scalafx.scene.paint.Color
+
+import fil.iagl.idl.sma.core.model.{Agent, Direction}
+
 import scala.util.Random
 
 /**
   * Little colored and cute particle
   */
 
-case class Particle (var x: Int,
-                     var y: Int) extends Agent {
+class Particle (var x: Int,
+                var y: Int,
+                val environment: ParticleEnvironment) extends Agent {
 
   val color: Color = assignRandomColor()
-  var direction: (Int, Int) = assignRandomDirection()
 
   def assignRandomColor(): Color ={
     val randomPrimaryColor = new Random()
-    val opacity = 1
-    new Color(randomPrimaryColor.nextDouble(),randomPrimaryColor nextDouble(), randomPrimaryColor.nextDouble(),opacity)
+    Color.rgb(randomPrimaryColor.nextInt(255),randomPrimaryColor.nextInt(255), randomPrimaryColor.nextInt(255))
   }
 
-  def assignRandomDirection(): (Int,Int) ={
-    val possibleDirections = Direction.DIRECTIONS
-    val randomDirection = new Random()
-    possibleDirections.toVector(randomDirection.nextInt(possibleDirections.size))
+  def changeDirection(): (Int,Int) ={
+    val newDirection = assignRandomDirection()
+    if(newDirection != direction)
+      newDirection
+    else
+      changeDirection()
   }
 
-  def setOppositeDirection(): Unit ={
-    val oppositeX = direction._1 * -1
-    val oppositeY = direction._2 * -1
-    direction = (oppositeX,oppositeY)
+  override def doIt(): Unit = {
+    val next = this.getNextCoordinates
+    if(environment.isAvailable(next._1,next._2)) {
+      environment.move(next._1, next._2, this)
+    }
+    else{
+      this.changeDirection()
+    }
+
   }
 
   /**
     * Generate new random coordinates depending of the environment width and height
     */
-  def reroll(maxWidth: Int, maxHeight: Int): Unit={
+  def rerollCoordinates(maxWidth: Int, maxHeight: Int): Unit={
     x = Random.nextInt(maxHeight)
     y = Random.nextInt(maxWidth)
   }
 
-  def getNextCoordinates(environment: ParticleEnvironment ): (Int,Int) = {
-    var xDirection = direction._1
-    var yDirection = direction._2
 
-    if (environment.toric) {
-      val newX = if ((x + xDirection) >= 0) x + xDirection else (x + xDirection) + environment.width
-      val newY = if ((y + yDirection) >= 0) y + yDirection else (y + yDirection) + environment.height
+  override def getNextCoordinates: (Int,Int) = {
+    if (environment.isToric) {
+      val newX = getToricNextX
+      val newY = getToricNextY
       (newX % environment.width, newY % environment.height)
     }
     else {
       var newX = x + xDirection
       var newY = y + yDirection
 
-      if ((newX < 0) || (newX >= environment.width)) {
+      if (isOutOfWidthBounds(newX)) {
         xDirection = -xDirection
         newX = x + xDirection
       }
 
-      if ((newY < 0) || (newY >= environment.height)) {
+      if (isOutOfHeightBounds(newY)) {
         yDirection = -yDirection
         newY = y + yDirection
       }
       (newX, newY)
     }
   }
+
 
 }

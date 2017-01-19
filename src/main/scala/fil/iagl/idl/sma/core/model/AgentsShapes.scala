@@ -1,6 +1,6 @@
 package fil.iagl.idl.sma.core.model
 
-import javafx.scene.shape.Shape
+import scalafx.scene.shape.Shape
 
 import scala.collection.mutable
 

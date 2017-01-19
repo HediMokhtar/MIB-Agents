@@ -1,4 +1,4 @@
-package fil.iagl.idl.sma.particles.model
+package fil.iagl.idl.sma.core.model
 
 /**
   * Correspond to the 8 directions possible
