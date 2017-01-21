@@ -4,8 +4,8 @@ import fil.iagl.idl.sma.core.model.{Agent, Environment}
 
 import scala.util.Random
 
-class WatorEnvironment (val height: Int,
-                        val width : Int,
+class WatorEnvironment (var height: Int,
+                        var width : Int,
                         val sharksNumber: Int,
                         val fishesNumber: Int,
                         val agentsSize: Double,

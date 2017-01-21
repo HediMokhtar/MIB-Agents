@@ -2,7 +2,7 @@ package fil.iagl.idl.sma.wator.model
 
 import scalafx.scene.paint.Color
 
-import fil.iagl.idl.sma.core.model.{Agent, Environment}
+import fil.iagl.idl.sma.core.model.Agent
 
 class Fish(var x: Int,
            var y: Int,
@@ -11,7 +11,6 @@ class Fish(var x: Int,
   override val color: Color = Color.Aqua
 
   override def doIt(): Unit = {
-
 
   }
 

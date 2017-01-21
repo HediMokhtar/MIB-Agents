@@ -1,13 +1,22 @@
 package fil.iagl.idl.sma.core.model
 
+import fil.iagl.idl.sma.core.view.AgentsView
+
+import scalafx.geometry.Rectangle2D
+import scalafx.stage.Screen
+
 /**
   * 2 dimensions Board for a multi-agent system
   */
 
 trait Environment{
 
-  val height: Int
-  val width: Int
+  var height: Int
+  var width: Int
+
+  //Check if the dimensions are reasonable
+  this.setValideDimension
+
   val agentsEnvironment: Array[Array[Agent]] = Array.ofDim[Agent](height,width)
   val agents: List[Agent]
 
@@ -17,6 +26,9 @@ trait Environment{
     agentsEnvironment(x)(y)
   }
 
+  /**
+    * Create a agent to the specific place and link it to the view
+    */
   def setContent(x: Int, y: Int, agent: Agent): Unit ={
     agentsEnvironment(x)(y) = agent
   }
@@ -44,5 +56,15 @@ trait Environment{
     * Launch the environment
     */
   def run(): Unit
+
+  def setValideDimension {
+    val bounds: Rectangle2D = Screen.primary.bounds
+    if (this.width <= 500) {
+      this.width = bounds.getWidth.toInt
+    }
+    if (this.height <= 500) {
+      this.height = bounds.getHeight.toInt
+    }
+  }
 
 }

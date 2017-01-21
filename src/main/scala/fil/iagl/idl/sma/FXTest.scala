@@ -12,7 +12,7 @@ object FXTest extends JFXApp {
   stage = new PrimaryStage {
     title = "Hello"
     scene = new Scene {
-      root = new BorderPane {
+        root = new BorderPane {
         padding = Insets(25)
         center = new Label("Hello World")
       }
