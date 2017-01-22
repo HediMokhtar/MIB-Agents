@@ -23,7 +23,7 @@ class Particle (var x: Int,
 
   def changeDirection(): (Int,Int) ={
     val newDirection = assignRandomDirection()
-    if(newDirection != direction)
+    if(newDirection == direction)
       newDirection
     else
       changeDirection()
@@ -34,10 +34,12 @@ class Particle (var x: Int,
     if(environment.isAvailable(next._1,next._2)) {
       environment.move(next._1, next._2, this)
       environment.view.agentsAndViewGateway(this).centerX = next._1
-      environment.view.agentsAndViewGateway(this).centerX = next._2
+      environment.view.agentsAndViewGateway(this).centerY = next._2
     }
     else{
+      println("previous direction " + direction)
       this.changeDirection()
+      println("direction changed !" + direction)
     }
 
   }
@@ -52,7 +54,8 @@ class Particle (var x: Int,
 
 
   override def getNextCoordinates: (Int,Int) = {
-    if (environment.isToric) {
+    if (!environment.isToric) {
+
       val newX = getToricNextX
       val newY = getToricNextY
       (newX % environment.width, newY % environment.height)

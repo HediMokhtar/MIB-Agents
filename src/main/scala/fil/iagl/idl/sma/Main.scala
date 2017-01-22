@@ -35,7 +35,7 @@ object Main extends JFXApp{
 
 
     val bounds: Rectangle2D = Screen.primary.bounds
-    val particleEnvironment = new ParticleEnvironment(600,600,10000,5,false)
+    val particleEnvironment = new ParticleEnvironment(501,501,100,3,true)
 
     stage = new JFXApp.PrimaryStage{
         title.value = "Particles"
@@ -49,7 +49,7 @@ object Main extends JFXApp{
 
 
             var lastTime = 0L
-            val speed = 5
+            val speed = 20
             val timer = AnimationTimer(t => {
                 if(lastTime>0){
                     particleEnvironment.nextState()

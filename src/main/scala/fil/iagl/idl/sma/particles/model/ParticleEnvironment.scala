@@ -31,9 +31,7 @@ class ParticleEnvironment(var height: Int,
       val particleViewElement = new Circle{
         centerX = particle.x
         centerY = particle.y
-        println(particle.x +"," + particle.y)
         fill = particle.color
-        println(particle.color)
         radius = agentsSize.toInt
       }
       view.agentsMaterialization(particle, particleViewElement)
