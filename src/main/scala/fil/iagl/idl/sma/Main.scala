@@ -35,7 +35,7 @@ object Main extends JFXApp{
 
 
     val bounds: Rectangle2D = Screen.primary.bounds
-    val particleEnvironment = new ParticleEnvironment(600,600,100,5,false)
+    val particleEnvironment = new ParticleEnvironment(600,600,10000,5,false)
 
     stage = new JFXApp.PrimaryStage{
         title.value = "Particles"
