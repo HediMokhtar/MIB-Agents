@@ -3,6 +3,7 @@ package fil.iagl.idl.sma
 import fil.iagl.idl.sma.particles.model.{Particle, ParticleEnvironment}
 import fil.iagl.idl.sma.particles.view.ParticlesView
 
+import scalafx.animation.AnimationTimer
 import scalafx.application.JFXApp
 import scalafx.geometry.Rectangle2D
 import scalafx.scene.Scene
@@ -34,24 +35,38 @@ object Main extends JFXApp{
 
 
     val bounds: Rectangle2D = Screen.primary.bounds
-    val particleEnvironment = new ParticleEnvironment(0,0,100,10,true)
+    val particleEnvironment = new ParticleEnvironment(600,600,100,5,false)
 
     stage = new JFXApp.PrimaryStage{
         title.value = "Particles"
 
-        scene = new Scene{
+        scene = new Scene(particleEnvironment.width,particleEnvironment.height){
 
             particleEnvironment.init()
 
-            val circles: List[Circle] = particleEnvironment.view.getAllParticlesElementView(particleEnvironment.agents)
+            var circles: List[Circle] = particleEnvironment.view.getAllParticlesElementView(particleEnvironment.agents)
             content = circles
 
 
-
+            var lastTime = 0L
+            val speed = 5
+            val timer = AnimationTimer(t => {
+                if(lastTime>0){
+                    particleEnvironment.nextState()
+                }
+                lastTime = t
+            })
+            timer.start
         }
 
+/**
 
-    }
+            var enemies = List(Circle(10,10,10))
+            val player = Circle (300,300,20)
+            player.fill = Color.Green
+            content = List(enemies.head,player) **/
+        }
+
 
 
 

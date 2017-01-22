@@ -31,10 +31,11 @@ class ParticleEnvironment(var height: Int,
       val particleViewElement = new Circle{
         centerX = particle.x
         centerY = particle.y
+        println(particle.x +"," + particle.y)
         fill = particle.color
+        println(particle.color)
         radius = agentsSize.toInt
       }
-      particleViewElement.relocate(particle.x * 5 ,particle.y * 5)
       view.agentsMaterialization(particle, particleViewElement)
     }
     else{ //case where the random coordinates is already pick by another agent

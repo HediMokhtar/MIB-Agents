@@ -33,6 +33,8 @@ class Particle (var x: Int,
     val next = this.getNextCoordinates
     if(environment.isAvailable(next._1,next._2)) {
       environment.move(next._1, next._2, this)
+      environment.view.agentsAndViewGateway(this).centerX = next._1
+      environment.view.agentsAndViewGateway(this).centerX = next._2
     }
     else{
       this.changeDirection()
