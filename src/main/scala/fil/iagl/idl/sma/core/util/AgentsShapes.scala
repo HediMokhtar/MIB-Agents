@@ -1,9 +1,9 @@
 package fil.iagl.idl.sma.core.util
 
+import javafx.scene.paint.Color
 import javafx.scene.shape.Shape
 
-import fil.iagl.idl.sma.particles.model.Agent
-import fil.iagl.idl.sma.particles.util.ParticlesRandomColorGenerator
+import fil.iagl.idl.sma.core.model.Agent
 
 import scala.collection.mutable
 
@@ -11,12 +11,21 @@ class AgentsShapes {
 
   val agentsToShapesAssociations = mutable.Map[Agent, Shape]()
 
+  val shapesToDelete = mutable.HashSet [Shape]()
+
   def linkAgentToShape(agent: Agent, shape: Shape): Unit = agentsToShapesAssociations += (agent -> shape)
 
   def relocateShape(agent: Agent, x: Int, y: Int): Unit = agentsToShapesAssociations(agent).relocate(x, y)
 
-  def recolor(agent: Agent): Unit = {
-    agentsToShapesAssociations(agent).setFill(ParticlesRandomColorGenerator.randomColor())
+  def removeAgent(agent: Agent): Unit = {
+    shapesToDelete += agentsToShapesAssociations.get(agent).get
+    agentsToShapesAssociations -= agent
+  }
+
+  def deleteShapesToDelete(): Unit = shapesToDelete.clear
+
+  def recolor(agent: Agent, color: Color): Unit = {
+      agentsToShapesAssociations(agent).setFill(color)
   }
 
 }

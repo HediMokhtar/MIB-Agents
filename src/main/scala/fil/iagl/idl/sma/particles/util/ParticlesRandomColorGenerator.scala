@@ -4,7 +4,9 @@ import javafx.scene.paint.Color
 
 import scala.util.Random
 
+
 object ParticlesRandomColorGenerator {
+
   val randomizer = new Random()
 
   def randomColor(): Color = {
@@ -14,4 +16,5 @@ object ParticlesRandomColorGenerator {
     val opacity = 1
     new Color(randomRed, randomGreen, randomBlue, opacity)
   }
+
 }
